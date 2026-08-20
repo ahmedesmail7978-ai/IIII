@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KinoBox Player</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden}
+#embedBox{
+  width:100%;height:100vh;
+  display:flex;align-items:center;justify-content:center;
+}
+.loader{color:#6a78a3;font-family:sans-serif;font-size:14px;text-align:center}
+.err{color:#fca5a5;font-family:sans-serif;font-size:13px;text-align:center;padding:20px}
+/* kinobox frame override — занять весь экран */
+.kinobox__wrapper{border-radius:0!important}
+iframe{border:none!important}
+</style>
+</head>
+<body>
+<div id="embedBox">
+  <div class="loader">⏳ Загрузка плеера...</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+(function(){
+  var proxies = [
+    "https://secure-272717.vercel.app",
+    "https://secure-272717.tatnet.app",
+    "https://secure-ridge-22999-537c838d4a8a.herokuapp.com",
+    "https://proxy-video.vercel.app",
+    window.location.origin
+  ];
+
+  function normalize(base){
+    return base.replace(/\/$/, "") + "/kinobox.js";
+  }
+
+  function loadScript(url, onOk, onErr){
+    var s = document.createElement("script");
+    s.src = url;
+    s.async = true;
+    s.onload = onOk;
+    s.onerror = onErr;
+    document.head.appendChild(s);
+  }
+
+  function loadFrom(i){
+    if(i >= proxies.length){
+      console.error("[KinoBox] Не удалось загрузить kinobox.js ни с одного прокси.");
+      return;
+    }
+    var src = normalize(proxies[i]);
+    loadScript(src, function(){
+      console.info("[KinoBox] kinobox.js загружен:", src);
+    }, function(){
+      loadFrom(i + 1);
+    });
+  }
+
+  loadFrom(0);
+})();
+</script>
+
+<script>
+(function(){
+  /* Читаем ID из хэша: /embed/#301 или /embed/#films/301 */
+  function getKpId(){
+    var h = window.location.hash.replace(/^#\/?/,'');
+    var m = h.match(/^(?:films\/|serials\/)?(\d+)/i);
+    return m ? parseInt(m[1],10) : null;
+  }
+
+  var kpId = getKpId();
+
+  if(!kpId){
+    document.getElementById('embedBox').innerHTML =
+      '<div class="err">⚠️ Не указан ID.<br>Формат: <code>/embed/#KINOPOISK_ID</code></div>';
+    return;
+  }
+
+  function showInitTimeoutError(){
+    var box = document.getElementById('embedBox');
+    box.innerHTML =
+      '<div class="err">⚠️ Плеер долго отвечает. Это не всегда проблема интернета.<br>'+ 
+      'Отключите блокировщик рекламы и попробуйте ещё раз.<br><br>'+ 
+      '<button id="retryEmbedBtn" style="background:#3b5bdb;color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer">Повторить</button></div>';
+
+    var retryBtn = document.getElementById('retryEmbedBtn');
+    if(retryBtn){
+      retryBtn.addEventListener('click', function(){
+        box.innerHTML = '<div class="loader">⏳ Повторная загрузка плеера...</div>';
+        setTimeout(function(){tryInit(Date.now());},100);
+      }, {once:true});
+    }
+  }
+
+  function tryInit(startTs){
+    if(typeof window.kinobox === 'function'){
+      var box = document.getElementById('embedBox');
+      box.innerHTML = '';
+      box.id = 'kbPlayer';
+      try{
+        window.kinobox('#kbPlayer', {search:{kinopoisk: kpId}});
+      }catch(e){
+        box.innerHTML = '<div class="err">⚠️ Ошибка плеера: '+e.message+'</div>';
+      }
+      return;
+    }
+
+    var elapsed = Date.now() - startTs;
+    if(elapsed < 30000){
+      setTimeout(function(){tryInit(startTs);}, 250);
+    } else {
+      showInitTimeoutError();
+    }
+  }
+
+  tryInit(Date.now());
+
+  /* Обновляем при смене хэша */
+  window.addEventListener('hashchange', function(){
+    window.location.reload();
+  });
+})();
+</script>
+</body>
+</html>

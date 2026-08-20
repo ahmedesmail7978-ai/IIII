@@ -1,0 +1,76 @@
+/*!
+ * kinobox.css — KinoBox.tv
+ * Подключи этот файл если используешь kinobox.js на своём сайте
+ */
+
+/* Стили инжектируются автоматически через kinobox.js.
+   Этот файл нужен только если ты хочешь переопределить стили. */
+
+.kb__wrap {
+  width: 100%;
+  font-family: "Montserrat", "Segoe UI", sans-serif;
+  background: #080c18;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #1e2540;
+}
+
+.kb__menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 12px;
+  background: #0b1020;
+  border-bottom: 1px solid #1e2540;
+}
+
+.kb__btn {
+  cursor: pointer;
+  padding: 6px 15px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #8aa0d4;
+  background: #141929;
+  border: 1px solid #1e2a48;
+  transition: background .15s, color .15s;
+  user-select: none;
+}
+
+.kb__btn:hover { background: #1e2a48; color: #fff; }
+
+.kb__btn.kb__active {
+  background: #3b5bdb;
+  color: #fff;
+  border-color: #3b5bdb;
+  box-shadow: 0 1px 8px rgba(59,91,219,.4);
+}
+
+.kb__frame {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+}
+
+.kb__frame iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+  background: #000;
+}
+
+.kb__loading {
+  padding: 60px 20px;
+  text-align: center;
+  color: #6a78a3;
+  font-size: 13px;
+}
+
+.kb__error {
+  padding: 40px 20px;
+  text-align: center;
+  color: #fca5a5;
+  font-size: 12px;
+  line-height: 1.7;
+}
