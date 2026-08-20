@@ -1,76 +1,358 @@
-/*!
+﻿/*!
  * kinobox.css — KinoBox.tv
- * Подключи этот файл если используешь kinobox.js на своём сайте
+ * Современный тёмный редизайн (glassmorphism, градиенты, анимации)
+ * Переопределяет как базовые стили, так и инжектированные из JS
  */
 
-/* Стили инжектируются автоматически через kinobox.js.
-   Этот файл нужен только если ты хочешь переопределить стили. */
-
-.kb__wrap {
-  width: 100%;
-  font-family: "Montserrat", "Segoe UI", sans-serif;
-  background: #080c18;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid #1e2540;
+/* -------------------- Общие переменные -------------------- */
+:root {
+  --kb-bg-primary: #0b0d19;
+  --kb-bg-secondary: rgba(20, 24, 45, 0.85);
+  --kb-bg-card: rgba(30, 35, 60, 0.6);
+  --kb-border: rgba(255, 255, 255, 0.08);
+  --kb-text-primary: #f0f2ff;
+  --kb-text-secondary: #a8b2d9;
+  --kb-accent-start: #6c5ce7;
+  --kb-accent-end: #a29bfe;
+  --kb-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --kb-radius: 20px;
+  --kb-transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* -------------------- Обёртка плеера -------------------- */
+.kb__wrap {
+  width: 100%;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  background: var(--kb-bg-primary) !important;
+  border-radius: var(--kb-radius) !important;
+  overflow: hidden !important;
+  border: 1px solid var(--kb-border) !important;
+  box-shadow: var(--kb-shadow) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* -------------------- Меню (табы) -------------------- */
 .kb__menu {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 10px 12px;
-  background: #0b1020;
-  border-bottom: 1px solid #1e2540;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  padding: 14px 18px !important;
+  background: var(--kb-bg-secondary) !important;
+  border-bottom: 1px solid var(--kb-border) !important;
+  backdrop-filter: blur(8px) !important;
 }
 
 .kb__btn {
-  cursor: pointer;
-  padding: 6px 15px;
-  border-radius: 30px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #8aa0d4;
-  background: #141929;
-  border: 1px solid #1e2a48;
-  transition: background .15s, color .15s;
-  user-select: none;
+  cursor: pointer !important;
+  padding: 8px 20px !important;
+  border-radius: 40px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px !important;
+  color: var(--kb-text-secondary) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid transparent !important;
+  transition: var(--kb-transition) !important;
+  user-select: none !important;
+  backdrop-filter: blur(4px) !important;
 }
 
-.kb__btn:hover { background: #1e2a48; color: #fff; }
+.kb__btn:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2) !important;
+}
 
 .kb__btn.kb__active {
-  background: #3b5bdb;
-  color: #fff;
-  border-color: #3b5bdb;
-  box-shadow: 0 1px 8px rgba(59,91,219,.4);
+  background: linear-gradient(135deg, var(--kb-accent-start), var(--kb-accent-end)) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4) !important;
+  transform: translateY(-1px) !important;
 }
 
+/* -------------------- Контейнер iframe -------------------- */
 .kb__frame {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%;
+  position: relative !important;
+  width: 100% !important;
+  padding-top: 56.25% !important;
+  background: #000 !important;
 }
 
 .kb__frame iframe {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  border: none;
-  background: #000;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+  background: #000 !important;
 }
 
+/* -------------------- Загрузка и ошибки -------------------- */
 .kb__loading {
-  padding: 60px 20px;
-  text-align: center;
-  color: #6a78a3;
-  font-size: 13px;
+  padding: 60px 20px !important;
+  text-align: center !important;
+  color: var(--kb-text-secondary) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.5px !important;
+  background: rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: blur(4px) !important;
 }
 
 .kb__error {
-  padding: 40px 20px;
-  text-align: center;
-  color: #fca5a5;
-  font-size: 12px;
-  line-height: 1.7;
+  padding: 40px 20px !important;
+  text-align: center !important;
+  color: #ff8a8a !important;
+  font-size: 13px !important;
+  line-height: 1.8 !important;
+  background: rgba(255, 70, 70, 0.08) !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 70, 70, 0.15) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* -------------------- Переопределение встроенных стилей (Svelte) -------------------- */
+
+/* Основной контейнер плеера */
+.kinobox_section.svelte-l0obux {
+  background: var(--kb-bg-primary) !important;
+  border-radius: var(--kb-radius) !important;
+  overflow: hidden !important;
+}
+
+.kinobox_container.svelte-l0obux {
+  background: #0a0c18 !important;
+  aspect-ratio: 16/9 !important;
+  border-radius: 0 0 var(--kb-radius) var(--kb-radius) !important;
+}
+
+/* Загрузчик */
+.kinobox_loader.svelte-l0obux {
+  background-color: #0a0c18 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236c5ce7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='animation: loader_spin 1.2s ease-in-out infinite;'%3E%3Cstyle%3E@keyframes loader_spin %7B0%%7Btransform: rotate(0deg);%7D 100%%7Btransform: rotate(360deg);%7D%7D%3C/style%3E%3Cpath d='M12 2v4M12 22v-4M4 12H2M6 12H4M20 12h-2M22 12h-2M19.07 4.93l-2.83 2.83M4.93 19.07l2.83-2.83M19.07 19.07l-2.83-2.83M4.93 4.93l2.83 2.83'/%3E%3C/svg%3E") !important;
+  background-size: 56px !important;
+  background-color: #0a0c18 !important;
+}
+
+/* Сообщение (например, "Видео не найдено") */
+.kinobox_message.svelte-l0obux {
+  background: rgba(10, 12, 24, 0.9) !important;
+  backdrop-filter: blur(12px) !important;
+  font: 28px 'Inter', system-ui, sans-serif !important;
+  color: #f0f2ff !important;
+  gap: 24px !important;
+  border-radius: 12px !important;
+  margin: 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Кнопка "Обновить" */
+.kinobox_button_refresh.svelte-l0obux {
+  background: linear-gradient(135deg, var(--kb-accent-start), var(--kb-accent-end)) !important;
+  border: none !important;
+  border-radius: 40px !important;
+  padding: 12px 32px !important;
+  font-family: 'Inter', system-ui !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba(108, 92, 231, 0.3) !important;
+  transition: var(--kb-transition) !important;
+  cursor: pointer !important;
+}
+.kinobox_button_refresh.svelte-l0obux:hover {
+  transform: scale(1.03) !important;
+  box-shadow: 0 8px 28px rgba(108, 92, 231, 0.5) !important;
+}
+.kinobox_button_refresh.svelte-l0obux:active {
+  transform: scale(0.97) !important;
+}
+
+/* Iframe-контейнер */
+.kinobox_iframe_container.svelte-l0obux {
+  background: #000 !important;
+}
+
+.kinobox_iframe.svelte-l0obux {
+  background: #000 !important;
+}
+
+/* -------------------- Кнопка меню (бургер) -------------------- */
+.kinobox_menu_button.svelte-l0obux {
+  background: rgba(255, 255, 255, 0.06) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 50% !important;
+  width: 44px !important;
+  height: 44px !important;
+  top: 50% !important;
+  right: 18px !important;
+  transform: translateY(-50%) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+  transition: var(--kb-transition) !important;
+  outline: none !important;
+}
+.kinobox_menu_button.svelte-l0obux:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  transform: translateY(-50%) scale(1.05) !important;
+}
+.kinobox_menu_button.svelte-l0obux::after {
+  content: '' !important;
+  position: absolute !important;
+  inset: -2px !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, var(--kb-accent-start), var(--kb-accent-end)) !important;
+  opacity: 0 !important;
+  z-index: -1 !important;
+  transition: var(--kb-transition) !important;
+}
+.kinobox_menu_button.svelte-l0obux:hover::after {
+  opacity: 0.4 !important;
+}
+
+/* -------------------- Модальное меню (kbt_button) -------------------- */
+.kbt_button.svelte-l0obux {
+  background: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(16px) !important;
+  padding: 20px !important;
+}
+.kbt_button.kinobox_menu_open.svelte-l0obux {
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+.kbt_button.svelte-l0obux ul.svelte-l0obux {
+  background: rgba(20, 24, 45, 0.9) !important;
+  backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--kb-border) !important;
+  border-radius: var(--kb-radius) !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7) !important;
+  padding: 12px !important;
+  gap: 6px !important;
+  max-height: min(70vh, 500px) !important;
+}
+.kbt_button.svelte-l0obux li.svelte-l0obux {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-radius: 12px !important;
+  padding: 14px 18px !important;
+  font: 14px 'Inter', system-ui, sans-serif !important;
+  color: #f0f2ff !important;
+  transition: var(--kb-transition) !important;
+  border: 1px solid transparent !important;
+}
+.kbt_button.svelte-l0obux li.svelte-l0obux:hover {
+  background: rgba(108, 92, 231, 0.2) !important;
+  border-color: rgba(108, 92, 231, 0.3) !important;
+  transform: translateX(4px) !important;
+}
+.kbt_button.svelte-l0obux .kinobox_menu_active.svelte-l0obux {
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.3), rgba(162, 155, 254, 0.15)) !important;
+  border-color: var(--kb-accent-start) !important;
+  box-shadow: inset 0 0 20px rgba(108, 92, 231, 0.1) !important;
+}
+
+/* -------------------- Боковое меню (kbt_list) -------------------- */
+.kbt_list.svelte-l0obux ul.svelte-l0obux {
+  background: rgba(20, 24, 45, 0.95) !important;
+  backdrop-filter: blur(16px) !important;
+  border-radius: 16px 0 0 16px !important;
+  border: 1px solid var(--kb-border) !important;
+  border-right: none !important;
+  box-shadow: -8px 8px 32px rgba(0, 0, 0, 0.5) !important;
+  right: -250px !important;
+  width: 240px !important;
+  padding: 8px 0 !important;
+}
+.kbt_list.kinobox_menu_open.svelte-l0obux ul.svelte-l0obux {
+  right: 0 !important;
+}
+.kbt_list.svelte-l0obux li.svelte-l0obux {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+  padding: 12px 16px !important;
+  font: 13px 'Inter', system-ui, sans-serif !important;
+  color: #d0d5f0 !important;
+  transition: var(--kb-transition) !important;
+}
+.kbt_list.svelte-l0obux li.svelte-l0obux:hover {
+  background: rgba(108, 92, 231, 0.15) !important;
+  color: #fff !important;
+}
+.kbt_list.svelte-l0obux .kinobox_menu_active.svelte-l0obux {
+  background: linear-gradient(90deg, rgba(108, 92, 231, 0.25), transparent) !important;
+  color: #fff !important;
+  border-left: 3px solid var(--kb-accent-start) !important;
+}
+
+/* -------------------- Сетка (kbt_grid) -------------------- */
+.kbt_grid.svelte-l0obux {
+  gap: 6px !important;
+  padding: 4px !important;
+}
+.kbt_grid.svelte-l0obux button.svelte-l0obux {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 12px !important;
+  padding: 10px 14px !important;
+  font: 13px 'Inter', system-ui, sans-serif !important;
+  color: #d0d5f0 !important;
+  transition: var(--kb-transition) !important;
+  backdrop-filter: blur(4px) !important;
+}
+.kbt_grid.svelte-l0obux button.svelte-l0obux:hover {
+  background: rgba(108, 92, 231, 0.15) !important;
+  border-color: rgba(108, 92, 231, 0.3) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+.kbt_grid.svelte-l0obux .kinobox_menu_active.svelte-l0obux {
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.3), rgba(162, 155, 254, 0.1)) !important;
+  border-color: var(--kb-accent-start) !important;
+  box-shadow: inset 0 0 20px rgba(108, 92, 231, 0.15) !important;
+}
+
+/* -------------------- Выпадающий список (kbt_select) -------------------- */
+.kbt_select.svelte-l0obux {
+  background: rgba(20, 24, 45, 0.9) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid var(--kb-border) !important;
+  border-radius: 40px !important;
+  padding: 8px 16px !important;
+  font: 14px 'Inter', system-ui, sans-serif !important;
+  color: #f0f2ff !important;
+  max-width: 200px !important;
+  cursor: pointer !important;
+  transition: var(--kb-transition) !important;
+}
+.kbt_select.svelte-l0obux:hover {
+  border-color: var(--kb-accent-start) !important;
+  box-shadow: 0 0 20px rgba(108, 92, 231, 0.15) !important;
+}
+.kbt_select.svelte-l0obux option {
+  background: #1a1e30 !important;
+  color: #f0f2ff !important;
+  padding: 8px !important;
+}
+
+/* -------------------- Адаптивность -------------------- */
+@media (max-width: 600px) {
+  .kb__btn {
+    font-size: 10px !important;
+    padding: 6px 14px !important;
+  }
+  .kb__menu {
+    gap: 4px !important;
+    padding: 10px 12px !important;
+  }
+  .kinobox_menu_button.svelte-l0obux {
+    width: 38px !important;
+    height: 38px !important;
+    right: 12px !important;
+  }
+  .kbt_button.svelte-l0obux ul.svelte-l0obux {
+    max-height: 60vh !important;
+  }
 }
